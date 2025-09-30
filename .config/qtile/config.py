@@ -23,6 +23,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+
 import os
 import subprocess
 
@@ -31,13 +32,14 @@ from typing import Optional
 from libqtile.widget.textbox import TextBox
 
 
+import libqtile.resources
 from libqtile import bar, layout, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 mod = "mod4"
-terminal = guess_terminal()
+terminal = "kitty",
 bordercolor = "#a3a3a3"
 borderinactive = "#595959"
 bordersize = 1
@@ -99,6 +101,7 @@ keys = [
     Key([mod], "F5", lazy.spawn("scrot -s"), desc="screenshot recortada"),
     
 ]
+    
 
 # Add key bindings to switch VTs in Wayland.
 # We can't check qtile.core.name in default config as it is loaded before qtile is started
@@ -145,11 +148,10 @@ for i, group in enumerate(groups):
     )
 
 layouts = [
-    
     layout.Columns(
         border_focus_stack=["#d75f5f", "#8f3d3d"],
         border_width=bordersize,
-        margin=30,
+        margin=5,
         border_focus=bordercolor,
         border_on_single=True,
         border_normal=borderinactive,
@@ -158,7 +160,7 @@ layouts = [
     layout.Columns(
         border_focus_stack=["#d75f5f", "#8f3d3d"],
         border_width=bordersize,
-        margin=1,
+        margin=0,
         border_focus=bordercolor,
         border_on_single=True,
         border_normal=borderinactive,
@@ -175,7 +177,7 @@ layouts = [
     
     layout.Spiral(
         main_pane_ratio = 0.48,
-        margin=30,
+        margin=15,
         border_width=bordersize,
         border_focus=bordercolor,
         border_on_single=True,
@@ -199,18 +201,7 @@ layouts = [
         border_on_single=True,
         border_normal=borderinactive,
         margin=1,
-    ),
-    # Try more layouts by unleashing below layouts.
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
-    # layout.MonadTall(),
-    # layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
+    ),  
 ]
 
 widget_defaults = dict(
@@ -220,19 +211,17 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-
-
+logo = os.path.join(os.path.dirname(libqtile.resources.__file__), "logo.png")
 screens = [
     Screen(
         top=bar.Bar(
-            [                
+            [
                 widget.TextBox(
                     text="  ",
                     foreground="#d9d9d9",
                     background="#000000",
                     fontsize=23,
                 ),
-
                 widget.TextBox(
                     text='\uE0B0',
                     padding=0,
@@ -240,7 +229,6 @@ screens = [
                     background="#21002b",
                     foreground="#000000",
                     ),
-                
                 widget.GroupBox(
                     background="#21002b",
                     inactive="#612a91",
@@ -254,7 +242,6 @@ screens = [
                     this_current_screen_border="#14000f",
                     block_highlight_text_color="#dbfcff",
                     ),
-
                 widget.TextBox(
                     text='\uE0B0',
                     padding=0,
@@ -262,69 +249,27 @@ screens = [
                     background="#0c0012",
                     foreground="#21002b",
                     ),
-
-                #widget.NetGraph(
-                #    frequency=0.1,
-                #    type="line",
-                #    border_color="#0c0012",
-                #    start_pos="bottom",
-                #    border_width=0,
-                #    margin_y=1,
-                #    samples=100,
-                #    line_width=1,
-                #    background="#0c0012",
-                #    graph_color="#5ac7c7",
-                #    padding=0,
-                #),
-#
-                #widget.CPUGraph(
-                #    frequency=0.1,
-                #    type="line",
-                #    border_color="#0c0012",
-                #    start_pos="bottom",
-                #    border_width=0,
-                #    margin_y=0,
-                #    samples=100,
-                #    line_width=1,
-                #    background="#0c0012",
-                #    graph_color="#61ff86",
-                #    padding=0,
-                #),
-#
-                #widget.HDDBusyGraph(
-                #    frequency=0.1,
-                #    type="line",
-                #    border_color="#0c0012",
-                #    start_pos="bottom",
-                #    border_width=0,
-                #    margin=0,
-                #    samples=100,
-                #    line_width=1,
-                #    background="#0c0012",
-                #    graph_color="#db3d3d",
-                #    padding=0,
-                #),
-                
                 widget.Prompt(
                     prompt='',
                     foreground="#834391",
-                    font="MesloLGS NF",
+                    font="Jetbrains Mono ",
                     cursor=True,
+                    ),
+                widget.Spacer(
+                    background="#0C0012",
                 ),
-                
-                widget.Spacer(),
-
-                widget.CurrentLayoutIcon(
-                background="#0C0012",
-                scale=0.7,
-                ),
-
+                #widget.CurrentLayout(
+                #background="#0C0012",
+                ##scale=0.7,
+                #icons="/home/Ragnar/.icons/layouts/",
+                #icon_first=True,
+                #
+                #),
                 widget.Sep(
                 background="#0C0012",
                 foreground="#0C0012",
                 padding=2,
                 ),
-                              
                 widget.TextBox(
                     text='\uE0B2',
                     padding=0,
@@ -338,7 +283,6 @@ screens = [
                     foreground="#000000",
                     
                 ),
-                
                 widget.TextBox(
                     text='\uE0B2',
                     padding=0,
@@ -346,7 +290,6 @@ screens = [
                     background="#071E22",
                     foreground="#1D7874",
                 ),
-                                
                 widget.TextBox(
                     text="󰋜",
                     background="#1D7874",
@@ -395,9 +338,6 @@ screens = [
                     foreground="#1D7874",
                     linewidth=1,
                 ), 
-                
-                
-
                 widget.TextBox(
                     text='\uE0B2',
                     padding=0,
@@ -405,17 +345,14 @@ screens = [
                     background="#1D7874",
                     foreground="#679289",
                     ),
-
                 widget.Wttr(
                     font="noto-fonts-emoji",
                     fontsize= 16,
+                    padding= 1,
                     format= "%m %f %c%w",
                     background="#679289",
                     foreground="#dae3e3",
-                ),
-               
-               
-                
+                ),               
                 widget.TextBox(
                     text='\uE0B2',
                     padding=0,
@@ -423,16 +360,14 @@ screens = [
                     background="#679289",
                     foreground="#F4C095",
                     ),
-                 
-                widget.Clock(
+                 widget.Clock(
                     format="%d-%m-%Y %H:%M ",
-                    timezone="America/Los_Angeles",
-                    font="JetBrains Mono Bold",
+                    timezone="America/Mexico_City",
+                    font="JetBrains Mono",
                     fontsize=15,
                     background="#F4C095",
                     foreground="#786146",
-                ),
-                                
+                ),                                
                 widget.TextBox(
                     text='\uE0B2',
                     padding=0,
@@ -440,269 +375,30 @@ screens = [
                     background="#F4C095",
                     foreground="#EE2E31",
                     ),
-
-                #widget.CPU(
-                #    format="{freq_current}Ghz  ",
-                #    update_interval=2.0,
-                #    font="JetBrains Mono Bold",
-                #    fontsize=15,
-                #    background="#EE2E31",
-                #    foreground="#ffdbc7",
-                #    padding=0,
-                #),🥴
-
+                widget.CPU(
+                    format="{freq_current}Ghz  ",
+                    update_interval=5.0,
+                    font="JetBrains Mono Bold",
+                    fontsize=15,
+                    background="#EE2E31",
+                    foreground="#ffdbc7",
+                    padding=0,
+                )
             ],
             24,
             background="#0c0012",
             margin=0,
-            #border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            #border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
-        #You can uncomment this variable if you see that on X11 floating resize/moving is laggy
+        #background="#000000",
+        #wallpaper=logo,
+        #wallpaper_mode="center",
+        # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
         # By default we handle these events delayed to already improve performance, however your system might still be struggling
         # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
-        #x11_drag_polling_rate = 60,
+        # x11_drag_polling_rate = 60,
     ),
-    #Screen(
-    #    top=bar.Bar(
-    #        [                
-    #            widget.TextBox(
-    #                text="  ",
-    #                foreground="#d9d9d9",
-    #                background="#000000",
-    #                fontsize=23,
-    #            ),
-#
-    #            widget.TextBox(
-    #                text='\uE0B0',
-    #                padding=0,
-    #                fontsize=30,
-    #                background="#21002b",
-    #                foreground="#000000",
-    #                ),
-    #            
-    #            #widget.GroupBox(
-    #            #    background="#21002b",
-    #            #    inactive="#612a91",
-    #            #    active="#ffe6ee",
-    #            #    fontsize= 18,
-    #            #    highlight_method="line",
-    #            #    margin=0,
-    #            #    borderwidth= 0,
-    #            #    center_aligned=False,
-    #            #    highlight_color= ["#000000", "#0c1a1c"],
-    #            #    this_current_screen_border="#14000f",
-    #            #    block_highlight_text_color="#dbfcff",
-    #            #    ),
-#
-    #            widget.TextBox(
-    #                text='\uE0B0',
-    #                padding=0,
-    #                fontsize=30,
-    #                background="#0c0012",
-    #                foreground="#21002b",
-    #                ),
-#
-    #            #widget.NetGraph(
-    #            #    frequency=0.1,
-    #            #    type="line",
-    #            #    border_color="#0c0012",
-    #            #    start_pos="bottom",
-    #            #    border_width=0,
-    #            #    margin_y=1,
-    #            #    samples=100,
-    #            #    line_width=1,
-    #            #    background="#0c0012",
-    #            #    graph_color="#5ac7c7",
-    #            #    padding=0,
-    #            #),
-##
-    #            #widget.CPUGraph(
-    #            #    frequency=0.1,
-    #            #    type="line",
-    #            #    border_color="#0c0012",
-    #            #    start_pos="bottom",
-    #            #    border_width=0,
-    #            #    margin_y=0,
-    #            #    samples=100,
-    #            #    line_width=1,
-    #            #    background="#0c0012",
-    #            #    graph_color="#61ff86",
-    #            #    padding=0,
-    #            #),
-##
-    #            #widget.HDDBusyGraph(
-    #            #    frequency=0.1,
-    #            #    type="line",
-    #            #    border_color="#0c0012",
-    #            #    start_pos="bottom",
-    #            #    border_width=0,
-    #            #    margin=0,
-    #            #    samples=100,
-    #            #    line_width=1,
-    #            #    background="#0c0012",
-    #            #    graph_color="#db3d3d",
-    #            #    padding=0,
-    #            #),
-    #            
-    #            widget.Prompt(
-    #                prompt='',
-    #                foreground="#834391",
-    #                font="MesloLGS NF",
-    #                cursor=True,
-    #            ),
-    #            
-    #            widget.Spacer(),
-#
-    #            widget.CurrentLayoutIcon(
-    #            background="#0C0012",
-    #            scale=0.7,
-    #            ),
-#
-    #            widget.Sep(
-    #            background="#0C0012",
-    #            foreground="#0C0012",
-    #            padding=2,
-    #            ),
-    #                          
-    #            widget.TextBox(
-    #                text='\uE0B2',
-    #                padding=0,
-    #                fontsize=30,
-    #                background="#0C0012",
-    #                foreground="#071E22",
-    #            ),
-    #            #widget.Systray(
-    #            #    fontsize=22,
-    #            #    background="#071E22",
-    #            #    foreground="#000000",
-    #            #    
-    #            #),
-    #            
-    #            widget.TextBox(
-    #                text='\uE0B2',
-    #                padding=0,
-    #                fontsize=30,
-    #                background="#071E22",
-    #                foreground="#1D7874",
-    #            ),
-    #                            
-    #            widget.TextBox(
-    #                text="󰋜",
-    #                background="#1D7874",
-    #                fontsize="20",
-    #                foreground="#ffbeab", 
-    #                mouse_callbacks={'Button1': lambda: qtile.cmd_spawn("nemo")}
-    #            ),
-    #            widget.Sep(
-    #                background="#1D7874",
-    #                foreground="#1D7874",
-    #                linewidth=1,
-    #            ),
-    #            widget.TextBox(
-    #                text="",
-    #                background="#1D7874",
-    #                fontsize="20",
-    #                foreground="#fffead",
-    #                mouse_callbacks={'Button1': lambda: qtile.cmd_spawn("brave")}
-    #            ),
-    #            widget.Sep(
-    #                background="#1D7874",
-    #                foreground="#1D7874",
-    #                linewidth=1,
-    #            ),
-    #            widget.TextBox(
-    #                text="󱃖",
-    #                background="#1D7874",
-    #                fontsize="20",
-    #                foreground="#c4ffcc",
-    #                mouse_callbacks={'Button1': lambda: qtile.cmd_spawn("code")}
-    #            ),
-    #            widget.Sep(
-    #                background="#1D7874",
-    #                foreground="#1D7874",
-    #                linewidth=1,
-    #            ),
-    #            widget.TextBox(
-    #                text="",
-    #                background="#1D7874",
-    #                fontsize="20",
-    #                foreground="#d1d1d1",
-    #                mouse_callbacks={'Button1': lambda: qtile.cmd_spawn("lxappearance ")}
-    #                ),
-    #            widget.Sep(
-    #                background="#1D7874",
-    #                foreground="#1D7874",
-    #                linewidth=1,
-    #            ), 
-    #            
-    #            
-#
-    #            widget.TextBox(
-    #                text='\uE0B2',
-    #                padding=0,
-    #                fontsize=30,
-    #                background="#1D7874",
-    #                foreground="#679289",
-    #                ),
-#
-    #            widget.Wttr(
-    #                font="JetBrains Mono",
-    #                fontsize= 16,
-    #                format= "%m %f%c",
-    #                background="#679289",
-    #                foreground="#dae3e3",
-    #            ),
-    #           
-    #           
-    #            
-    #            widget.TextBox(
-    #                text='\uE0B2',
-    #                padding=0,
-    #                fontsize=30,
-    #                background="#679289",
-    #                foreground="#F4C095",
-    #                ),
-    #             
-    #            widget.Clock(
-    #                format="%d-%m-%Y %H:%M ",
-    #                timezone="America/Los_Angeles",
-    #                font="JetBrains Mono Bold",
-    #                fontsize=15,
-    #                background="#F4C095",
-    #                foreground="#786146",
-    #            ),
-    #                            
-    #            widget.TextBox(
-    #                text='\uE0B2',
-    #                padding=0,
-    #                fontsize=30,
-    #                background="#F4C095",
-    #                foreground="#EE2E31",
-    #                ),
-#
-    #            widget.CPU(
-    #                format="{freq_current}Ghz  ",
-    #                update_interval=2.0,
-    #                font="JetBrains Mono Bold",
-    #                fontsize=15,
-    #                background="#EE2E31",
-    #                foreground="#ffdbc7",
-    #                padding=0,
-    #            ),
-#
-    #        ],
-    #        24,
-    #        background="#0c0012",
-    #        margin=0,
-    #        #border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-    #        #border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-    #    ),
-    #    #You can uncomment this variable if you see that on X11 floating resize/moving is laggy
-    #    # By default we handle these events delayed to already improve performance, however your system might still be struggling
-    #    # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
-    #    #x11_drag_polling_rate = 60,
-    #),
 ]
 
 # Drag floating layouts.
@@ -721,7 +417,7 @@ bring_front_click = False
 floats_kept_above = True
 cursor_warp = False
 floating_layout = layout.Floating(
-    border_width = 2,
+    border_width = 1,
     border_focus=bordercolor,
     border_normal="#000000",
     float_rules=[
@@ -734,10 +430,10 @@ floating_layout = layout.Floating(
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
     ]
-
 )
 auto_fullscreen = True
 focus_on_window_activation = "smart"
+focus_previous_on_window_remove = False
 reconfigure_screens = True
 
 # If things like steam games want to auto-minimize themselves when losing
@@ -748,8 +444,8 @@ auto_minimize = True
 wl_input_rules = None
 
 # xcursor theme (string or None) and size (integer) for Wayland backend
-wl_xcursor_theme = None
-wl_xcursor_size = 24
+wl_xcursor_theme = "adwaita",
+wl_xcursor_size = 10,
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the
@@ -765,8 +461,3 @@ wmname = "LG3D"
 def autostart():
     script = os.path.expanduser("~/.config/qtile/autostart.sh")
     subprocess.run([script])
-
-#espacio para definir funciones
-
-
-
