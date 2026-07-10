@@ -5,7 +5,7 @@ case $- in
 esac
 
 # Path to your oh-my-bash installation.
-export OSH='/home/ragnar/.oh-my-bash'
+export OSH='/home/Ragnar/.oh-my-bash'
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-bash is loaded.
@@ -13,6 +13,8 @@ OSH_THEME="brainy"
 
 # If you set OSH_THEME to "random", you can ignore themes you don't like.
 # OMB_THEME_RANDOM_IGNORED=("powerbash10k" "wanelo")
+# You can also specify the list from which a theme is randomly selected:
+# OMB_THEME_RANDOM_CANDIDATES=("font" "powerline-light" "minimal")
 
 # Uncomment the following line to use case-sensitive completion.
 # OMB_CASE_SENSITIVE="true"
@@ -79,6 +81,10 @@ OMB_USE_SUDO=true
 # OMB_PROMPT_SHOW_PYTHON_VENV=true  # enable
 # OMB_PROMPT_SHOW_PYTHON_VENV=false # disable
 
+# To enable/disable Spack environment information
+# OMB_PROMPT_SHOW_SPACK_ENV=true  # enable
+# OMB_PROMPT_SHOW_SPACK_ENV=false # disable
+
 # Which completions would you like to load? (completions can be found in ~/.oh-my-bash/completions/*)
 # Custom completions may be added to ~/.oh-my-bash/custom/completions/
 # Example format: completions=(ssh git bundler gem pip pip3)
@@ -113,6 +119,13 @@ plugins=(
 #      plugins+=(tmux-autoattach)
 #  fi
 
+# If you want to reduce the initialization cost of the "tput" command to
+# initialize color escape sequences, you can uncomment the following setting.
+# This disables the use of the "tput" command, and the escape sequences are
+# initialized to be the ANSI version:
+#
+#OMB_TERM_USE_TPUT=no
+
 source "$OSH"/oh-my-bash.sh
 
 # User configuration
@@ -143,29 +156,6 @@ source "$OSH"/oh-my-bash.sh
 # alias bashconfig="mate ~/.bashrc"
 # alias ohmybash="mate ~/.oh-my-bash"
 alias ls="lsd"
-alias lf="lfub"
-alias pipes="pipes.sh"
 alias background="background.sh"
-alias wpp="wpp.sh"
-#neofetch | lolcat
-
-if [ "$TERM" = "alacritty" ]; then
-    neofetch --ascii
-fi
-
-if [ "$TERM" = "xterm-kitty" ]; then
-    neofetch | lolcat
-    
-fi
-
-if [ "$TERM" = "xterm-256color" ]; then
-    neofetch --ascii
-fi
-
-function jarvis() {
-    local quoted_input=$(printf "%s" "$*" | sed 's/[^[:print:]\t]/"&"/g')
-    tgpt "$quoted_input"
-}
-
-# Created by `pipx` on 2024-06-17 03:47:55
-export PATH="$PATH:/home/ragnar/.local/bin"
+alias pipes="pipes.sh"
+export PATH="$PATH:/home/Ragnar/.local/bin"
